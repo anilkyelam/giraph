@@ -76,10 +76,10 @@ public class SimplePageRankComputation extends BasicComputation<LongWritable,
           new DoubleWritable((0.15f / getTotalNumVertices()) + 0.85f * sum);
       vertex.setValue(vertexValue);
 
-      // Is aggregating taking too much computation?
-      aggregate(MAX_AGG, vertexValue);
-      aggregate(MIN_AGG, vertexValue);
-      aggregate(SUM_AGG, new LongWritable(1));
+      // Is aggregating taking too much computation? IGNORE AGGREGATION
+      // aggregate(MAX_AGG, vertexValue);
+      // aggregate(MIN_AGG, vertexValue);
+      // aggregate(SUM_AGG, new LongWritable(1));
 
       // Don't write output: too big of a log file
       // LOG.info(vertex.getId() + ": PageRank=" + vertexValue +
@@ -89,8 +89,9 @@ public class SimplePageRankComputation extends BasicComputation<LongWritable,
 
     if (getSuperstep() < MAX_SUPERSTEPS) {
       long edges = vertex.getNumEdges();
-      sendMessageToAllEdges(vertex,
-          new DoubleWritable(vertex.getValue().get() / edges));
+      for(int i=0; i < 10; i++){
+          sendMessageToAllEdges(vertex, new DoubleWritable(vertex.getValue().get() / edges));
+      }
     } else {
       vertex.voteToHalt();
     }
@@ -127,6 +128,8 @@ public class SimplePageRankComputation extends BasicComputation<LongWritable,
 
     @Override
     public void postApplication() {
+      
+      /* DO NOTHING WITH AGGREGATION
       FINAL_SUM = this.<LongWritable>getAggregatedValue(SUM_AGG).get();
       FINAL_MAX = this.<DoubleWritable>getAggregatedValue(MAX_AGG).get();
       FINAL_MIN = this.<DoubleWritable>getAggregatedValue(MIN_AGG).get();
@@ -134,10 +137,13 @@ public class SimplePageRankComputation extends BasicComputation<LongWritable,
       LOG.info("aggregatedNumVertices=" + FINAL_SUM);
       LOG.info("aggregatedMaxPageRank=" + FINAL_MAX);
       LOG.info("aggregatedMinPageRank=" + FINAL_MIN);
+      */
     }
 
     @Override
     public void preSuperstep() {
+
+      /* DO NOTHING WITH AGGREGATION
       if (getSuperstep() >= 3) {
         LOG.info("aggregatedNumVertices=" +
             getAggregatedValue(SUM_AGG) +
@@ -152,7 +158,7 @@ public class SimplePageRankComputation extends BasicComputation<LongWritable,
         LOG.info("aggregatedMaxPageRank=" + maxPagerank.get());
         DoubleWritable minPagerank = getAggregatedValue(MIN_AGG);
         LOG.info("aggregatedMinPageRank=" + minPagerank.get());
-      }
+      }*/
     }
 
     @Override
