@@ -75,12 +75,16 @@ public class SimplePageRankComputation extends BasicComputation<LongWritable,
       DoubleWritable vertexValue =
           new DoubleWritable((0.15f / getTotalNumVertices()) + 0.85f * sum);
       vertex.setValue(vertexValue);
+
+      // Is aggregating taking too much computation?
       aggregate(MAX_AGG, vertexValue);
       aggregate(MIN_AGG, vertexValue);
       aggregate(SUM_AGG, new LongWritable(1));
-      LOG.info(vertex.getId() + ": PageRank=" + vertexValue +
-          " max=" + getAggregatedValue(MAX_AGG) +
-          " min=" + getAggregatedValue(MIN_AGG));
+
+      // Don't write output: too big of a log file
+      // LOG.info(vertex.getId() + ": PageRank=" + vertexValue +
+      //    " max=" + getAggregatedValue(MAX_AGG) +
+      //    " min=" + getAggregatedValue(MIN_AGG));
     }
 
     if (getSuperstep() < MAX_SUPERSTEPS) {
