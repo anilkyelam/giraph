@@ -22,4 +22,116 @@ under the License.
 
 <configuration>
 
+	<!-- Pagerank computation settings -->
+
+	<property>
+                <name>giraph.vertexInputFormatClass</name>
+                <value>org.apache.giraph.io.formats.LongDoubleFloatTextInputFormat</value>
+        </property>
+
+	<property>
+                <name>giraph.vertexOutputFormatClass</name>
+                <value>org.apache.giraph.io.formats.IdWithValueTextOutputFormat</value>
+        </property>
+
+	<property>
+                <name>giraph.masterComputeClass</name>
+                <value>org.apache.giraph.examples.SimplePageRankComputation$SimplePageRankMasterCompute</value>
+        </property>
+
+	<property>
+		<name>giraph.SplitMasterWorker</name>
+		<value>true</value>
+	</property>
+	
+	<property>
+		<name>giraph.maxNumberOfSupersteps</name>
+		<value>5</value>
+	</property>
+	
+	<!-- Trying out facebook-like configuration for optimizing perf -->
+	<!-- See org\apache\giraph\conf\FacebookConfiguration.java for details -->
+	<property>
+                <name>giraph.numInputThreads</name>
+                <value>40</value>
+	</property>
+	
+	<property>
+                <name>giraph.numComputeThreads</name>
+		<value>80</value>
+        </property>
+	
+	<property>
+                <name>giraph.nettyServerThreads</name>
+                <value>40</value>
+        </property>
+
+	<!-- 2 * Num of netty server threads / Num of workers -->	
+	<property>
+                <name>giraph.channelsPerServer</name>
+                <value>20</value>
+        </property>
+
+	<property>
+                <name>giraph.useNettyPooledAllocator</name>
+                <value>true</value>
+        </property>
+
+	<property>
+                <name>giraph.nettyAutoRead</name>
+                <value>false</value>
+        </property>
+
+	<property>
+		<name>giraph.memoryObserver.enabled</name>
+                <value>true</value>
+	</property>
+
+	<property>
+             	<name>giraph.minPartitionsPerComputeThread</name>
+                <value>5</value>
+	</property>
+
+	<property>
+                <name>giraph.preferIP</name>
+                <value>true</value>
+        </property>
+
+	<!-- Property fails on giraph build targeted for non-facebook hadoop builds -->
+	<!--property>
+                <name>giraph.trackJobProgressOnClient</name>
+                <value>true</value>
+        </property-->
+
+	<property>
+                <name>giraph.logThreadLayout</name>
+                <value>true</value>
+        </property>
+
+	<property>
+                <name>giraph.metrics.enable</name>
+                <value>true</value>
+        </property>
+
+	<!-- Setting Map task java heap memory and enabling parallel GC -->		
+	<property>
+                <name>mapred.child.java.opts</name>
+                <value>-Xms100g -Xmx100g -XX:+UseNUMA -XX:+UseParallelGC -XX:+UseParallelOldGC -XX:NewSize=1g -XX:MaxNewSize=1g</value>
+        </property>
+
+	<property>
+                <name>giraph.waitForRequestsConfirmation</name>
+                <value>false</value>
+        </property>
+
+	<!--property>
+                <name>giraph.maxNumberOfOpenRequests</name>
+                <value>2000</value>
+	</property-->
+	
+	<property>
+		<name>giraph.useInputSplitLocality</name>
+		<value>false</value>
+	</property>
+
 </configuration>
