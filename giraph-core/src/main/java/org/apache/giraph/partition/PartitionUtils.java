@@ -137,11 +137,11 @@ public class PartitionUtils {
 
     if (LOG.isInfoEnabled()) {
       Collections.sort(workerEntryList, new VertexCountComparator());
-      
+
       for (Entry<WorkerInfo, VertexEdgeCount> worker: workerEntryList) {
         LOG.info("PartitionStats: " + worker.getKey() + " - Vertices: " + 
           worker.getValue().getVertexCount() + ", Edges: " +
-          worker.getValue().getEdgeCount())
+          worker.getValue().getEdgeCount());
       }
 
       LOG.info("analyzePartitionStats: Vertices - Mean: " +
