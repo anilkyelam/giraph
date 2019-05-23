@@ -101,7 +101,7 @@ public abstract class GraphPartitionerFactory<I extends WritableComparable,
    * @return Index of partition where value belongs to.
    */
   public static int getPartitionInRange(int value, int max, int partitions) {
-    double keyRange = ((double) max) / partitions;
+    double keyRange = ((double) max) / partitions;  
     int part = (int) ((value % max) / keyRange);
     return Math.max(0, Math.min(partitions - 1, part));
   }

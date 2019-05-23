@@ -89,9 +89,7 @@ public class SimplePageRankComputation extends BasicComputation<LongWritable,
 
     if (getSuperstep() < MAX_SUPERSTEPS) {
       long edges = vertex.getNumEdges();
-      for(int i=0; i < 10; i++){
-          sendMessageToAllEdges(vertex, new DoubleWritable(vertex.getValue().get() / edges));
-      }
+      sendMessageToAllEdges(vertex, new DoubleWritable(vertex.getValue().get() / edges));
     } else {
       vertex.voteToHalt();
     }
